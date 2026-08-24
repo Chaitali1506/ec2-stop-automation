@@ -1,0 +1,52 @@
+pipeline {
+
+    agent { label 'Agent-node' }
+
+    triggers {
+        cron('0 0 * * *')
+    }
+
+    stages {
+
+        stage('Clean Workspace') {
+            steps {
+                cleanWs()
+            }
+        }
+
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+
+        stage('Install Dependencies') {
+            steps {
+                sh '''
+                    python3 -m pip install --user boto3
+                '''
+            }
+        }
+
+        stage('Stop EC2 Instances') {
+            steps {
+                sh '~/ec2-venv/bin/python stop_ec2.py'
+            }
+        }
+    }
+
+    post {
+
+        success {
+            echo 'EC2 stop process completed successfully.'
+        }
+
+        failure {
+            echo 'EC2 stop process failed.'
+        }
+
+        always {
+            echo 'Pipeline execution completed.'
+        }
+    }
+}
