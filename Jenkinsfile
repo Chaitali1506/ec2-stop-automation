@@ -20,14 +20,6 @@ pipeline {
             }
         }
 
-        stage('Install Dependencies') {
-            steps {
-                sh '''
-                    python3 -m pip install --user boto3
-                '''
-            }
-        }
-
         stage('Stop EC2 Instances') {
             steps {
                 sh '~/ec2-venv/bin/python stop_ec2.py'
