@@ -2,10 +2,6 @@ pipeline {
 
     agent { label 'Agent-node' }
 
-    triggers {
-        cron('0 0 * * *')
-    }
-
     stages {
 
         stage('Clean Workspace') {
