@@ -26,10 +26,10 @@ pipeline {
                     )
                 ]) {
                 sh '~/ec2-venv/bin/python stop_ec2.py'
+                   }
             }
         }
     }
-
     post {
 
         success {
