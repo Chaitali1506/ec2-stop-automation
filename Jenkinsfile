@@ -18,6 +18,13 @@ pipeline {
 
         stage('Stop EC2 Instances') {
             steps {
+                withCredentials([
+                    usernamePassword(
+                        credentialsId: 'awscreds',
+                        usernameVariable: 'AWS_ACCESS_KEY_ID',
+                        passwordVariable: 'AWS_SECRET_ACCESS_KEY'
+                    )
+                ]) {
                 sh '~/ec2-venv/bin/python stop_ec2.py'
             }
         }
